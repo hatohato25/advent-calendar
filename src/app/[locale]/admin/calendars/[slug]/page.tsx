@@ -128,8 +128,8 @@ export default async function CalendarManagementPage({ params }: CalendarManagem
   const totalAllowedDays = allowedDates.length < 25 ? allowedDates.length : 25;
   const stats = {
     totalArticles: articles.length,
-    publishedArticles: articles.filter((a) => a.status === "published").length,
-    draftArticles: articles.filter((a) => a.status === "draft").length,
+    publishedArticles: articles.filter((a: { status: string }) => a.status === "published").length,
+    draftArticles: articles.filter((a: { status: string }) => a.status === "draft").length,
     emptyDays: totalAllowedDays - articles.length,
   };
 
