@@ -113,7 +113,7 @@ export default async function AdminPreviewPage({ params }: { params: Promise<{ i
               <div className="flex items-center gap-2 mb-6">
                 <TagIcon className="h-4 w-4 text-muted-foreground" />
                 <div className="flex flex-wrap gap-2">
-                  {article.tags.map((tag) => (
+                  {article.tags.map((tag: (typeof article.tags)[0]) => (
                     <Badge key={tag.id} variant="outline">
                       {tag.name}
                     </Badge>

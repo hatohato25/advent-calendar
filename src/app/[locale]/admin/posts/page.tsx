@@ -219,7 +219,7 @@ export default function PostsListPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {article.tags.slice(0, 3).map((tag) => (
+                        {article.tags.slice(0, 3).map((tag: (typeof article.tags)[0]) => (
                           <Badge key={tag.id} variant="outline" className="text-xs">
                             {tag.name}
                           </Badge>

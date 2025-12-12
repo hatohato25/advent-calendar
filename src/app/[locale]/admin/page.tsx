@@ -257,7 +257,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                     </div>
                     {article.tags.length > 0 && (
                       <div className="flex gap-2 mt-2">
-                        {article.tags.map((tag: (typeof article.tags)[0]) => (
+                        {article.tags.map((tag: (typeof article)["tags"][0]) => (
                           <Badge key={tag.id} variant="outline">
                             {tag.name}
                           </Badge>

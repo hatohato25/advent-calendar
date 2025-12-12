@@ -166,7 +166,7 @@ export default async function PostPage({ params }: PostPageProps) {
               <div className="flex items-center gap-2 mt-4">
                 <TagIcon className="h-4 w-4 text-muted-foreground" />
                 <div className="flex flex-wrap gap-2">
-                  {article.tags.map((tag) => (
+                  {article.tags.map((tag: (typeof article.tags)[0]) => (
                     <Badge key={tag.id} variant="outline">
                       {tag.name}
                     </Badge>
@@ -212,8 +212,8 @@ export async function generateStaticParams() {
 
   // 公開カレンダーの記事のみ
   return articles
-    .filter((article) => article.calendar.isPublished)
-    .map((article) => ({
+    .filter((article: (typeof articles)[0]) => article.calendar.isPublished)
+    .map((article: (typeof articles)[0]) => ({
       slug: article.calendar.slug,
       date: article.date.toString(),
     }));

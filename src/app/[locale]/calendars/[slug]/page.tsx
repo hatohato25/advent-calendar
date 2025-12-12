@@ -86,12 +86,12 @@ export default async function CalendarPage({ params }: CalendarPageProps) {
   });
 
   // 型変換
-  const articleList: ArticleListItem[] = articles.map((article) => ({
+  const articleList: ArticleListItem[] = articles.map((article: (typeof articles)[0]) => ({
     id: article.id,
     title: article.title,
     date: article.date,
     status: article.status as "draft" | "published",
-    tags: article.tags.map((tag) => ({
+    tags: article.tags.map((tag: (typeof article.tags)[0]) => ({
       id: tag.id,
       name: tag.name,
       slug: tag.slug,
@@ -116,7 +116,7 @@ export default async function CalendarPage({ params }: CalendarPageProps) {
     },
   });
 
-  const tagList: TagSimple[] = tags.map((tag) => ({
+  const tagList: TagSimple[] = tags.map((tag: (typeof tags)[0]) => ({
     id: tag.id,
     name: tag.name,
     slug: tag.slug,
