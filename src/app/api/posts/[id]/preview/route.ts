@@ -43,7 +43,7 @@ export async function GET(_request: Request, props: { params: Promise<{ id: stri
         content: article.content,
         date: article.date,
         status: article.status,
-        tags: article.tags.map((tag) => ({
+        tags: article.tags.map((tag: (typeof article.tags)[0]) => ({
           id: tag.id,
           name: tag.name,
           slug: tag.slug,

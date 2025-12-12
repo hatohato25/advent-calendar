@@ -272,7 +272,7 @@ export async function getUserAccessibleCalendars(userId: string) {
 
   // 編集者は権限があるカレンダーのみ
   if (user.role === "editor") {
-    return user.calendarPermissions.map((p) => p.calendar);
+    return user.calendarPermissions.map((p: (typeof user.calendarPermissions)[0]) => p.calendar);
   }
 
   return [];
