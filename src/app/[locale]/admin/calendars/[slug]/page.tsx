@@ -128,8 +128,8 @@ export default async function CalendarManagementPage({ params }: CalendarManagem
   const totalAllowedDays = allowedDates.length < 25 ? allowedDates.length : 25;
   const stats = {
     totalArticles: articles.length,
-    publishedArticles: articles.filter((a: { status: string }) => a.status === "published").length,
-    draftArticles: articles.filter((a: { status: string }) => a.status === "draft").length,
+    publishedArticles: articles.filter((a: typeof articles[0]) => a.status === "published").length,
+    draftArticles: articles.filter((a: typeof articles[0]) => a.status === "draft").length,
     emptyDays: totalAllowedDays - articles.length,
   };
 
@@ -236,7 +236,7 @@ export default async function CalendarManagementPage({ params }: CalendarManagem
             </div>
           ) : (
             <div className="space-y-4">
-              {articles.map((article) => (
+              {articles.map((article: typeof articles[0]) => (
                 <div
                   key={article.id}
                   className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent transition-colors"
@@ -262,7 +262,7 @@ export default async function CalendarManagementPage({ params }: CalendarManagem
                     </div>
                     {article.tags.length > 0 && (
                       <div className="flex gap-2 mt-2">
-                        {article.tags.map((tag) => (
+                        {article.tags.map((tag: typeof article.tags[0]) => (
                           <Badge key={tag.id} variant="outline">
                             {tag.name}
                           </Badge>
