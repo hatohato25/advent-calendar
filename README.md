@@ -1,4 +1,4 @@
-# Advent Calendar 2025
+# Advent Calendar
 
 [English](README.md) | [日本語](README.ja.md)
 
