@@ -145,6 +145,13 @@ export async function POST(request: NextRequest) {
       calendarId = defaultCalendar.id;
     }
 
+    // 型ガード: calendarIdが確定していることを保証
+    // WHY: 上記の条件分岐により calendarId は必ず string 型になっているが、
+    // TypeScriptのフロー解析で追跡できないため、明示的にチェックする
+    if (!calendarId) {
+      return NextResponse.json({ error: "カレンダーIDの取得に失敗しました" }, { status: 500 });
+    }
+
     // 権限チェック: editorはカレンダー内の許可された日程のみ作成可能
     // WHY: calendarIdがこの時点で確定しているため、カレンダーごとの権限を正しくチェックできる
     const { canEditArticleInCalendar } = await import("@/lib/auth");

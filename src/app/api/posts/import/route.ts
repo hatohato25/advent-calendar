@@ -51,6 +51,13 @@ export async function POST(request: Request) {
       calendarId = defaultCalendar.id;
     }
 
+    // 型ガード: calendarIdが確定していることを保証
+    // WHY: 上記の条件分岐により calendarId は必ず string 型になっているが、
+    // TypeScriptのフロー解析で追跡できないため、明示的にチェックする
+    if (!calendarId) {
+      return NextResponse.json({ error: "カレンダーIDの取得に失敗しました" }, { status: 500 });
+    }
+
     // フロントマターをパース
     const { data: frontmatter, content } = matter(markdown);
 
