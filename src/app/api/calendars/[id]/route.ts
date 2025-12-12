@@ -109,7 +109,9 @@ export async function PUT(request: Request, context: RouteContext) {
       return NextResponse.json(
         {
           error: "バリデーションエラー",
-          details: validationResult.error.issues.map((e: (typeof validationResult.error.issues)[0]) => e.message),
+          details: validationResult.error.issues.map(
+            (e: (typeof validationResult.error.issues)[0]) => e.message,
+          ),
         },
         { status: 400 },
       );

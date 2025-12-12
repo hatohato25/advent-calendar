@@ -48,7 +48,9 @@ export async function GET() {
       email: user.email,
       role: user.role as "admin" | "editor",
       allowedDates: user.allowedDates ? JSON.parse(user.allowedDates) : [],
-      calendars: user.calendarPermissions.map((permission: (typeof user.calendarPermissions)[0]) => permission.calendar),
+      calendars: user.calendarPermissions.map(
+        (permission: (typeof user.calendarPermissions)[0]) => permission.calendar,
+      ),
       hasPassword: user.passwordHash !== null,
       createdAt: user.createdAt,
     }));
@@ -83,7 +85,9 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: "バリデーションエラー",
-          details: validation.error.issues.map((err: (typeof validation.error.issues)[0]) => err.message),
+          details: validation.error.issues.map(
+            (err: (typeof validation.error.issues)[0]) => err.message,
+          ),
         },
         { status: 400 },
       );

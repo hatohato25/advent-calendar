@@ -1,5 +1,3 @@
-import type { Prisma } from "@prisma/client";
-
 // Calendar型（基本）
 export type Calendar = {
   id: string;
@@ -64,6 +62,7 @@ export type CalendarFormData = {
 export type CalendarUpdateData = Omit<CalendarFormData, "slug" | "year">;
 
 // Prisma select type for calendar list
+// satisfies Prisma.CalendarSelect は使用できないため、as const で型推論
 export const calendarListSelect = {
   id: true,
   name: true,
@@ -86,7 +85,7 @@ export const calendarListSelect = {
       articles: true,
     },
   },
-} satisfies Prisma.CalendarSelect;
+} as const;
 
 // Prisma select type for calendar detail
 export const calendarDetailSelect = {
@@ -106,4 +105,4 @@ export const calendarDetailSelect = {
       username: true,
     },
   },
-} satisfies Prisma.CalendarSelect;
+} as const;

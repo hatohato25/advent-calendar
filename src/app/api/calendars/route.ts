@@ -1,9 +1,11 @@
-import type { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { handleApiError } from "@/lib/api/error-handler";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { calendarCreateSchema, calendarQuerySchema } from "@/lib/validation/calendar";
+
+// Prismaの型を取得（@prisma/client の Prisma 名前空間は使用できないため）
+type CalendarWhereInput = NonNullable<Parameters<typeof prisma.calendar.findMany>[0]>["where"];
 
 /**
  * GET /api/calendars
@@ -33,7 +35,7 @@ export async function GET(request: Request) {
     const { year, isPublished, theme, sort, order } = queryResult.data;
 
     // 権限に応じたフィルタリング
-    const where: Prisma.CalendarWhereInput = {};
+    const where: CalendarWhereInput = {};
 
     // 未認証ユーザーは公開カレンダーのみ表示
     if (!session) {
@@ -126,7 +128,9 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: "バリデーションエラー",
-          details: validationResult.error.issues.map((e: (typeof validationResult.error.issues)[0]) => e.message),
+          details: validationResult.error.issues.map(
+            (e: (typeof validationResult.error.issues)[0]) => e.message,
+          ),
         },
         { status: 400 },
       );
