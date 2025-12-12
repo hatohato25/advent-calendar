@@ -77,7 +77,8 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
 
   // 選択されたカレンダーを決定（デフォルトは最新年度）
   const selectedSlug = params.calendar || allCalendars[0]?.slug;
-  const selectedCalendar = allCalendars.find((c) => c.slug === selectedSlug) || allCalendars[0];
+  const selectedCalendar =
+    allCalendars.find((c: (typeof allCalendars)[0]) => c.slug === selectedSlug) || allCalendars[0];
 
   if (!selectedCalendar) {
     throw new Error("カレンダーが見つかりません");
@@ -114,8 +115,9 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
   const totalAllowedDays = allowedDates.length < 25 ? allowedDates.length : 25;
   const stats = {
     totalArticles: articles.length,
-    publishedArticles: articles.filter((a) => a.status === "published").length,
-    draftArticles: articles.filter((a) => a.status === "draft").length,
+    publishedArticles: articles.filter((a: (typeof articles)[0]) => a.status === "published")
+      .length,
+    draftArticles: articles.filter((a: (typeof articles)[0]) => a.status === "draft").length,
     emptyDays: totalAllowedDays - articles.length,
   };
 
@@ -225,7 +227,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
             </div>
           ) : (
             <div className="space-y-4">
-              {articles.map((article) => (
+              {articles.map((article: (typeof articles)[0]) => (
                 <div
                   key={article.id}
                   className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent transition-colors"
@@ -255,7 +257,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                     </div>
                     {article.tags.length > 0 && (
                       <div className="flex gap-2 mt-2">
-                        {article.tags.map((tag) => (
+                        {article.tags.map((tag: (typeof article.tags)[0]) => (
                           <Badge key={tag.id} variant="outline">
                             {tag.name}
                           </Badge>
