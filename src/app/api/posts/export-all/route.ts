@@ -34,12 +34,12 @@ export async function GET() {
     }
 
     // 各記事をMarkdown形式に変換
-    const markdowns = articles.map((article) => {
+    const markdowns = articles.map((article: (typeof articles)[0]) => {
       const frontmatter = {
         title: article.title,
         date: article.date,
         status: article.status,
-        tags: article.tags.map((tag) => tag.name),
+        tags: article.tags.map((tag: (typeof article.tags)[0]) => tag.name),
         author: article.author.username,
         createdAt: article.createdAt.toISOString(),
         updatedAt: article.updatedAt.toISOString(),

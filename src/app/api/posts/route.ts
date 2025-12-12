@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
 
     // タグの処理（存在しないタグは作成）
     const tagRecords = await Promise.all(
-      validatedData.tags.map(async (tagName) => {
+      validatedData.tags.map(async (tagName: (typeof validatedData.tags)[0]) => {
         const slug = tagName.toLowerCase().replace(/\s+/g, "-");
         return await prisma.tag.upsert({
           where: { slug },
@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
         authorId: session.user.id,
         publishedAt: validatedData.status === "published" ? new Date() : null,
         tags: {
-          connect: tagRecords.map((tag) => ({ id: tag.id })),
+          connect: tagRecords.map((tag: (typeof tagRecords)[0]) => ({ id: tag.id })),
         },
       },
       include: {
@@ -229,7 +229,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "バリデーションエラー",
-          details: error.issues.map((issue) => issue.message),
+          details: error.issues.map((issue: (typeof error.issues)[0]) => issue.message),
         },
         { status: 400 },
       );

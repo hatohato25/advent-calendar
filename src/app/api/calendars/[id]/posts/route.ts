@@ -105,7 +105,7 @@ export async function GET(request: Request, context: RouteContext) {
       },
     });
 
-    const response = articles.map((article) => ({
+    const response = articles.map((article: (typeof articles)[0]) => ({
       id: article.id,
       title: article.title,
       date: article.date,
@@ -197,7 +197,7 @@ export async function POST(request: Request, context: RouteContext) {
     // タグの処理
     const tagConnections = tags
       ? await Promise.all(
-          tags.map(async (tagName: string) => {
+          (tags as string[]).map(async (tagName: string) => {
             // タグが既に存在するか確認
             let tag = await prisma.tag.findUnique({
               where: { name: tagName },

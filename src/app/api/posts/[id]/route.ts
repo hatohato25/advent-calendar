@@ -139,7 +139,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     let tagRecords = existingArticle.tags;
     if (validatedData.tags) {
       tagRecords = await Promise.all(
-        validatedData.tags.map(async (tagName) => {
+        validatedData.tags.map(async (tagName: (typeof validatedData.tags)[0]) => {
           const slug = tagName.toLowerCase().replace(/\s+/g, "-");
           return await prisma.tag.upsert({
             where: { name: tagName },
@@ -184,7 +184,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         ...(validatedData.tags && {
           tags: {
             set: [],
-            connect: tagRecords.map((tag) => ({ id: tag.id })),
+            connect: tagRecords.map((tag: (typeof tagRecords)[0]) => ({ id: tag.id })),
           },
         }),
       },
@@ -217,7 +217,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json(
         {
           error: "バリデーションエラー",
-          details: error.issues.map((issue) => issue.message),
+          details: error.issues.map((issue: (typeof error.issues)[0]) => issue.message),
         },
         { status: 400 },
       );

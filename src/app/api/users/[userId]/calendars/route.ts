@@ -67,7 +67,7 @@ export async function GET(
     });
 
     // allowedDatesをJSONパース
-    const permissionsWithParsedDates = permissions.map((permission) => ({
+    const permissionsWithParsedDates = permissions.map((permission: (typeof permissions)[0]) => ({
       ...permission,
       allowedDates: JSON.parse(permission.allowedDates) as number[],
     }));
@@ -109,7 +109,7 @@ export async function POST(
       return NextResponse.json(
         {
           error: "バリデーションエラー",
-          details: validationResult.error.issues.map((e) => e.message),
+          details: validationResult.error.issues.map((e: (typeof validationResult.error.issues)[0]) => e.message),
         },
         { status: 400 },
       );

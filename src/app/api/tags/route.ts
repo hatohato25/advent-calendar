@@ -29,7 +29,7 @@ export async function GET() {
     });
 
     // レスポンス形式を整形
-    const tagsWithCount = tags.map((tag) => ({
+    const tagsWithCount = tags.map((tag: (typeof tags)[0]) => ({
       id: tag.id,
       name: tag.name,
       slug: tag.slug,
