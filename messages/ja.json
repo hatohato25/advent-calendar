@@ -1,0 +1,569 @@
+{
+  "common": {
+    "appTitle": "アドベントカレンダー 2025",
+    "dialog": {
+      "confirmDelete": "削除しますか？",
+      "confirmDeleteWithName": "{name}を削除しますか？",
+      "cannotUndo": "この操作は元に戻せません。",
+      "permanentDelete": "完全に削除されます。"
+    },
+    "button": {
+      "save": "保存",
+      "cancel": "キャンセル",
+      "delete": "削除",
+      "edit": "編集",
+      "create": "作成",
+      "back": "戻る",
+      "confirm": "確認",
+      "close": "閉じる",
+      "export": "エクスポート",
+      "import": "インポート",
+      "preview": "プレビュー",
+      "add": "追加",
+      "update": "更新",
+      "loading": "読み込み中...",
+      "saving": "保存中...",
+      "creating": "作成中...",
+      "deleting": "削除中...",
+      "processing": "処理中...",
+      "changing": "変更中..."
+    },
+    "label": {
+      "title": "タイトル",
+      "date": "日付",
+      "status": "ステータス",
+      "tags": "タグ",
+      "author": "著者",
+      "createdAt": "作成日時",
+      "updatedAt": "更新日時",
+      "username": "ユーザー名",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "passwordConfirm": "パスワード（確認）",
+      "role": "役職",
+      "required": "*"
+    },
+    "table": {
+      "actions": "操作",
+      "edit": "編集",
+      "delete": "削除",
+      "name": "名前",
+      "title": "タイトル",
+      "date": "日付",
+      "year": "年度",
+      "status": "ステータス",
+      "tags": "タグ",
+      "createdAt": "作成日",
+      "updatedAt": "更新日",
+      "username": "ユーザー名",
+      "email": "メール"
+    },
+    "status": {
+      "draft": "下書き",
+      "published": "公開",
+      "unpublished": "非公開"
+    },
+    "navigation": {
+      "calendar": "カレンダー",
+      "postManagement": "記事管理",
+      "mypage": "マイページ",
+      "calendarManagement": "カレンダー管理",
+      "userManagement": "ユーザー管理",
+      "tagManagement": "タグ管理",
+      "logout": "ログアウト"
+    },
+    "role": {
+      "admin": "管理者",
+      "editor": "編集者"
+    },
+    "theme": {
+      "changeTheme": "テーマを変更",
+      "light": "ライト",
+      "dark": "ダーク",
+      "system": "システム"
+    },
+    "language": {
+      "changeLanguage": "言語を変更",
+      "japanese": "日本語",
+      "english": "English"
+    },
+    "message": {
+      "noData": "データがありません",
+      "error": "エラーが発生しました"
+    }
+  },
+  "calendar": {
+    "title": "カレンダー",
+    "grid": {
+      "today": "今日",
+      "unpublished": "未公開",
+      "noCalendar": "現在、公開中のカレンダーはありません",
+      "waitForCalendar": "管理者がカレンダーを作成すると、ここに表示されます",
+      "noMatchingArticles": "条件に一致する記事が見つかりません",
+      "weekdays": {
+        "sun": "日",
+        "mon": "月",
+        "tue": "火",
+        "wed": "水",
+        "thu": "木",
+        "fri": "金",
+        "sat": "土"
+      }
+    },
+    "filter": {
+      "title": "フィルター",
+      "allTags": "すべてのタグ",
+      "selectTag": "タグで絞り込む",
+      "reset": "リセット",
+      "activeCount": "{count}個のタグで絞り込み中"
+    },
+    "management": {
+      "title": "カレンダー管理",
+      "createNew": "カレンダーを作成",
+      "editCalendar": "カレンダー編集",
+      "deleteCalendar": "カレンダー削除",
+      "confirmDeleteArticles": "このカレンダーに関連する{count}件の記事もすべて削除されます。",
+      "description": "アドベントカレンダーの作成と管理",
+      "settings": "設定",
+      "themeLabel": "テーマ:"
+    },
+    "form": {
+      "name": "カレンダー名",
+      "namePlaceholder": "例: アドベントカレンダー 2025",
+      "nameDescription": "カレンダーの表示名を入力してください",
+      "year": "年度",
+      "yearPlaceholder": "2025",
+      "yearDescription": "カレンダーの年度を指定してください（作成後は変更できません）",
+      "slug": "スラッグ",
+      "slugPlaceholder": "advent-2025",
+      "slugDescription": "URL識別子（例: advent-2025 → /calendars/advent-2025）",
+      "slugDescriptionDetail": "英小文字、数字、ハイフンのみ使用可能（作成後は変更できません）",
+      "description": "説明文",
+      "descriptionPlaceholder": "このカレンダーの説明を入力してください",
+      "descriptionDescription": "カレンダーの概要や目的を説明してください（500文字以内）",
+      "isPublished": "公開状態",
+      "isPublishedLabel": "このカレンダーを公開する",
+      "isPublishedDescription": "公開すると、一般ユーザーがカレンダーを閲覧できるようになります",
+      "theme": "テーマ",
+      "themePlaceholder": "例: JavaScript, DevOps, AI",
+      "themeDescription": "カレンダーのテーマやカテゴリを入力してください"
+    },
+    "statistics": {
+      "totalCalendars": "総カレンダー数",
+      "totalCalendarsDescription": "作成されたカレンダー",
+      "publishedCalendars": "公開中",
+      "publishedCalendarsDescription": "一般公開されているカレンダー",
+      "totalArticles": "総記事数",
+      "totalArticlesDescription": "すべてのカレンダーの記事合計",
+      "articlesCount": "{count}件の記事"
+    },
+    "table": {
+      "name": "カレンダー名",
+      "year": "年度",
+      "articleCount": "記事数",
+      "state": "状態",
+      "createdAt": "作成日",
+      "openMenu": "メニューを開く",
+      "viewPublic": "公開ページを表示",
+      "managePosts": "記事を管理",
+      "noCalendars": "カレンダーがまだ作成されていません"
+    },
+    "new": {
+      "title": "カレンダーを作成",
+      "description": "新しいアドベントカレンダーを作成します"
+    },
+    "edit": {
+      "title": "カレンダーを編集",
+      "metaTitle": "{name}を編集"
+    },
+    "detail": {
+      "postManagement": "記事管理",
+      "createPost": "記事を作成",
+      "yearSuffix": "年",
+      "noAccess": "アクセス可能なカレンダーがありません",
+      "noAccessDescription": "現在、あなたにはアクセス権限が設定されているカレンダーがありません",
+      "noAccessMessage": "管理者にカレンダーへのアクセス権限を設定してもらってください。",
+      "noAccessMessageDetail": "権限が設定されると、記事の作成や編集が可能になります。",
+      "backToTop": "トップページに戻る"
+    }
+  },
+  "post": {
+    "title": "記事",
+    "meta": {
+      "author": "投稿者",
+      "postedBy": "{name}が投稿",
+      "date": "12月{date}日"
+    },
+    "list": {
+      "title": "記事一覧",
+      "description": "すべての記事を管理",
+      "empty": "記事がありません",
+      "noArticles": "まだ記事がありません",
+      "createFirst": "最初の記事を作成",
+      "createFromCalendar": "カレンダーから記事を作成",
+      "recentUpdates": "最近更新した記事",
+      "recentUpdatesDescription": "最近更新された記事の一覧"
+    },
+    "detail": {
+      "readMore": "続きを読む",
+      "previous": "前の記事",
+      "next": "次の記事",
+      "backToCalendar": "カレンダーに戻る",
+      "published": "公開",
+      "updated": "更新",
+      "author": "著者:",
+      "view": "表示",
+      "viewCalendar": "カレンダー表示を見る"
+    },
+    "editor": {
+      "title": "記事編集",
+      "createNew": "新規記事作成",
+      "editPost": "記事編集",
+      "preview": "プレビュー",
+      "markdown": "Markdown",
+      "toolbar": {
+        "bold": "太字",
+        "italic": "斜体",
+        "heading": "見出し",
+        "link": "リンク",
+        "image": "画像",
+        "code": "コードブロック"
+      },
+      "loading": "エディタを読み込み中...",
+      "autoSave": "編集内容は2秒後に自動保存されます。Ctrl+S (Cmd+S) でも保存できます。",
+      "manualSave": "Ctrl+S (Cmd+S) で保存できます。Markdownのリアルタイムプレビューが表示されます。"
+    },
+    "form": {
+      "title": "タイトル",
+      "titlePlaceholder": "記事のタイトルを入力",
+      "date": "公開日",
+      "selectDate": "12月の日付を選択",
+      "content": "コンテンツ (Markdown)",
+      "tags": "タグ",
+      "tagPlaceholder": "タグを入力してEnter",
+      "tagMax": "最大10個まで設定できます",
+      "status": "ステータス",
+      "required": "*",
+      "dateFormat": "12月{date}日",
+      "notFound": "記事が見つかりません",
+      "backToCalendar": "カレンダー管理ページに戻る",
+      "editDescription": "12月{date}日の記事を編集します",
+      "createDescription": "アドベントカレンダーの記事を作成します",
+      "noPermission": "このカレンダーの記事を作成する権限がありません。",
+      "noPermissionMessage": "管理者に許可日程を設定してもらってください。",
+      "noPermissionEdit": "この記事の日付（12月{date}日）を編集する権限がありません。日付を変更できません。",
+      "noPermissionEditMessage": "現在の日付が許可日程に含まれていないため、日付変更はできません。"
+    },
+    "action": {
+      "export": "エクスポート",
+      "import": "インポート",
+      "delete": "削除",
+      "confirmDeleteMessage": "この操作は取り消せません。記事「{title}」を完全に削除します。"
+    },
+    "preview": {
+      "title": "プレビュー",
+      "description": "編集画面でのプレビュー表示です"
+    },
+    "filter": {
+      "title": "フィルタ・ソート",
+      "status": "ステータス:",
+      "statusAll": "すべて",
+      "sortBy": "並び順:",
+      "sortByDate": "日付順",
+      "sortByUpdated": "更新日順"
+    },
+    "table": {
+      "calendar": "カレンダー",
+      "date": "日付",
+      "title": "タイトル",
+      "status": "ステータス",
+      "tags": "タグ",
+      "updatedAt": "更新日時",
+      "unknown": "不明"
+    },
+    "statistics": {
+      "totalArticles": "総記事数",
+      "totalArticlesDescription": "/ {count}日分",
+      "publishedArticles": "公開済み",
+      "publishedArticlesDescription": "一般公開中",
+      "draftArticles": "下書き",
+      "draftArticlesDescription": "執筆中",
+      "emptyDays": "未投稿",
+      "emptyDaysDescription": "空き日数"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "ダッシュボード",
+      "postManagement": "記事管理",
+      "calendarSettings": "カレンダー設定",
+      "statistics": {
+        "totalPosts": "総記事数",
+        "publishedPosts": "公開記事数",
+        "draftPosts": "下書き数",
+        "totalCalendars": "カレンダー数"
+      }
+    },
+    "users": {
+      "title": "ユーザー管理",
+      "description": "ユーザーの作成・編集・削除を行います",
+      "createNew": "新規ユーザー作成",
+      "addButton": "新規ユーザー追加",
+      "editUser": "ユーザー編集",
+      "deleteUser": "ユーザー削除",
+      "create": {
+        "title": "ユーザーを作成",
+        "description": "新しいユーザーを作成します。カレンダー権限は、ユーザー作成後に編集画面から設定できます。",
+        "successMessage": "ユーザーが作成されました。以下のURLをユーザーに共有してください。",
+        "emailLabel": "メールアドレス *",
+        "emailHelp": "ユーザー名は、メールアドレスの@より前の部分が自動的に設定されます",
+        "roleLabel": "役職 *",
+        "roleAdmin": "管理者",
+        "roleEditor": "編集者",
+        "createError": "ユーザーの作成に失敗しました"
+      },
+      "edit": {
+        "title": "ユーザー編集",
+        "description": "ユーザー情報とカレンダー権限を編集します。",
+        "usernameLabel": "ユーザー名 *",
+        "emailLabel": "メールアドレス *",
+        "roleLabel": "役職 *",
+        "roleAdmin": "管理者",
+        "roleEditor": "編集者",
+        "passwordResetButton": "パスワードリセット",
+        "passwordResetHelp": "パスワードリセット用のURLを新しく発行します",
+        "passwordResetSuccess": "新しいパスワードリセット用URLを発行しました。以下のURLをユーザーに共有してください。",
+        "updateError": "ユーザーの更新に失敗しました",
+        "tokenError": "トークンの発行に失敗しました",
+        "tabBasic": "基本情報",
+        "tabPermissions": "カレンダー権限"
+      },
+      "statistics": {
+        "totalUsers": "総ユーザー数",
+        "totalUsersDescription": "登録済みユーザー",
+        "adminUsers": "管理者",
+        "adminUsersDescription": "全権限アカウント",
+        "editorUsers": "編集者",
+        "editorUsersDescription": "日程限定アカウント",
+        "usersWithoutPassword": "未設定",
+        "usersWithoutPasswordDescription": "パスワード未設定"
+      },
+      "table": {
+        "title": "ユーザー一覧",
+        "description": "登録されているユーザーの一覧と管理操作",
+        "username": "ユーザー名",
+        "email": "メール",
+        "roleColumn": "役職",
+        "allowedCalendars": "許可カレンダー",
+        "password": "パスワード",
+        "passwordSet": "設定済み",
+        "passwordNotSet": "未設定",
+        "registeredAt": "登録日時",
+        "noUsers": "ユーザーが登録されていません",
+        "edit": "編集",
+        "delete": "削除",
+        "resetToken": "トークン再発行",
+        "none": "なし",
+        "resetTokenSuccess": "新しい初回ログインURLをコピーしました",
+        "resetTokenError": "トークンの再発行に失敗しました",
+        "resetTokenManual": "初回ログインURLを手動でコピーしてください:\n\n{url}",
+        "cannotDeleteYourself": "自分自身は削除できません"
+      },
+      "permissions": {
+        "title": "カレンダー権限",
+        "description": "このユーザーがアクセスできるカレンダーと許可日程を管理します。",
+        "adminNote": "管理者は全カレンダーに完全アクセスできます。",
+        "editorOnly": "カレンダー権限の設定は編集者のみ必要です。",
+        "noPermissions": "このユーザーはどのカレンダーにも割り当てられていません。",
+        "addButton": "下の「カレンダー権限を追加」ボタンから権限を追加してください。",
+        "addDialogButton": "カレンダー権限を追加",
+        "table": {
+          "calendarName": "カレンダー名",
+          "year": "年度",
+          "allowedDates": "許可日程",
+          "allDates": "すべて",
+          "dateFormat": "{date}日",
+          "otherDates": "他{count}件"
+        }
+      }
+    },
+    "tags": {
+      "title": "タグ管理",
+      "description": "記事に付けるタグを管理します",
+      "createNew": "新規タグ作成",
+      "createDescription": "記事で使用するタグを作成します",
+      "editTag": "タグ編集",
+      "deleteTag": "タグ削除",
+      "confirmDeleteMessage": "「{name}」タグを削除します。この操作は取り消せません。",
+      "list": {
+        "title": "タグ一覧",
+        "description": "全{total}件のタグ（未使用: {unused}件）",
+        "empty": "タグがありません"
+      },
+      "form": {
+        "name": "タグ名",
+        "namePlaceholder": "タグ名を入力"
+      },
+      "unused": {
+        "deleteAll": "未使用タグを一括削除",
+        "confirmDeleteMessage": "記事で使用されていない{count}件のタグを削除します。この操作は取り消せません。"
+      },
+      "table": {
+        "name": "タグ名",
+        "slug": "Slug",
+        "articleCount": "記事数",
+        "inUse": "使用中"
+      }
+    },
+    "import": {
+      "title": "記事インポート",
+      "description": "Markdownファイルをアップロードして記事を作成します",
+      "fileLabel": "Markdownファイル",
+      "fileDescription": "フロントマターを含むMarkdownファイル（.md）をアップロードしてください",
+      "previewLabel": "Markdownプレビュー",
+      "overwriteLabel": "同じ日付の記事が存在する場合は上書きする",
+      "successRedirect": "3秒後にダッシュボードに戻ります...",
+      "frontmatter": {
+        "title": "フロントマターの形式",
+        "description": "Markdownファイルの先頭に以下のようなフロントマターを含める必要があります：",
+        "titleField": "記事タイトル",
+        "titleRequired": "必須",
+        "dateField": "12月の日付",
+        "dateRange": "1〜25",
+        "statusField": "公開ステータス",
+        "statusOptions": "published または draft",
+        "tagsField": "タグのリスト",
+        "tagsOptional": "任意"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "管理者ログイン",
+      "description": "アドベントカレンダー管理ページ",
+      "email": "メールアドレス",
+      "emailPlaceholder": "メールアドレスを入力",
+      "password": "パスワード",
+      "passwordPlaceholder": "パスワードを入力",
+      "submit": "ログイン",
+      "submitting": "ログイン中...",
+      "error": "ログインに失敗しました",
+      "errorInvalid": "メールアドレスまたはパスワードが正しくありません",
+      "errorGeneric": "ログイン中にエラーが発生しました"
+    },
+    "firstLogin": {
+      "title": "初回ログイン",
+      "setPasswordTitle": "パスワード設定",
+      "setPasswordDescription": "初回ログイン用のパスワードを設定してください",
+      "username": "ユーザー名",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "passwordConfirm": "パスワード確認",
+      "submit": "設定してログイン",
+      "submitting": "設定中...",
+      "invalidToken": "トークンが無効です",
+      "invalidTokenMessage": "管理者に新しい初回ログインURLの発行を依頼してください。",
+      "tokenNotSpecified": "トークンが指定されていません",
+      "tokenVerificationFailed": "トークンの検証に失敗しました",
+      "error": {
+        "passwordMismatch": "パスワードが一致しません",
+        "setPasswordFailed": "パスワードの設定に失敗しました",
+        "loginFailed": "ログインに失敗しました",
+        "generic": "エラーが発生しました"
+      }
+    }
+  },
+  "error": {
+    "notFound": "ページが見つかりません",
+    "internalError": "サーバーエラーが発生しました",
+    "unauthorized": "認証が必要です",
+    "forbidden": "アクセス権限がありません",
+    "validation": {
+      "required": "このフィールドは必須です",
+      "minLength": "{min}文字以上で入力してください",
+      "maxLength": "{max}文字以内で入力してください",
+      "email": "有効なメールアドレスを入力してください",
+      "uniqueSlug": "このスラッグは既に使用されています"
+    },
+    "post": {
+      "fetchFailed": "記事の取得に失敗しました",
+      "createFailed": "記事の作成に失敗しました",
+      "createError": "記事の作成中にエラーが発生しました",
+      "updateFailed": "記事の更新に失敗しました",
+      "updateError": "記事の更新中にエラーが発生しました",
+      "deleteFailed": "記事の削除に失敗しました",
+      "deleteError": "記事の削除中にエラーが発生しました",
+      "exportFailed": "記事のエクスポートに失敗しました",
+      "exportError": "記事のエクスポート中にエラーが発生しました"
+    },
+    "calendar": {
+      "notFound": "カレンダーが見つかりません",
+      "slugInUse": "このスラッグは既に使用されています"
+    },
+    "tag": {
+      "fetchFailed": "タグの取得に失敗しました",
+      "createFailed": "タグの作成に失敗しました",
+      "createError": "タグの作成中にエラーが発生しました",
+      "deleteFailed": "タグの削除に失敗しました",
+      "deleteError": "タグの削除中にエラーが発生しました",
+      "deleteUnusedError": "未使用タグの削除中にエラーが発生しました",
+      "noUnused": "削除可能な未使用タグがありません"
+    }
+  },
+  "success": {
+    "saved": "保存しました",
+    "created": "作成しました",
+    "updated": "更新しました",
+    "deleted": "削除しました",
+    "exported": "エクスポートしました",
+    "imported": "インポートしました"
+  },
+  "mypage": {
+    "title": "マイページ",
+    "subtitle": "プロフィール情報とパスワードを管理します",
+    "profile": {
+      "avatar": "アイコン画像",
+      "avatarUpload": "画像を選択",
+      "avatarDelete": "削除",
+      "avatarHelp": "JPEG、PNG、GIF、WebP形式の画像（2MB以下）をアップロードできます",
+      "uploading": "アップロード中...",
+      "deleting": "削除中...",
+      "basicInfo": "基本情報",
+      "displayName": "表示名",
+      "displayNamePlaceholder": "表示名を入力",
+      "displayNameHelp": "空欄の場合はユーザー名が表示されます",
+      "email": "メールアドレス",
+      "emailReadOnly": "メールアドレスは変更できません",
+      "createdAt": "登録日時",
+      "saveButton": "保存",
+      "saveSuccess": "プロフィールを更新しました",
+      "uploadSuccess": "アイコンをアップロードしました",
+      "deleteSuccess": "アイコンを削除しました"
+    },
+    "password": {
+      "currentPassword": "現在のパスワード",
+      "currentPasswordPlaceholder": "現在のパスワードを入力",
+      "newPassword": "新しいパスワード",
+      "newPasswordPlaceholder": "新しいパスワードを入力",
+      "newPasswordConfirm": "新しいパスワード（確認）",
+      "newPasswordConfirmPlaceholder": "新しいパスワードを再入力",
+      "changeButton": "変更",
+      "changeSuccess": "パスワードを変更しました",
+      "passwordStrength": "パスワード強度",
+      "passwordHint": "8文字以上、英大文字・英小文字・数字・記号(@$!%*?&)を含む",
+      "passwordWeak": "弱い",
+      "passwordFair": "普通",
+      "passwordGood": "良い",
+      "passwordStrong": "強い"
+    },
+    "error": {
+      "uploadFailed": "画像のアップロードに失敗しました",
+      "deleteFailed": "画像の削除に失敗しました",
+      "updateFailed": "プロフィールの更新に失敗しました",
+      "passwordChangeFailed": "パスワードの変更に失敗しました",
+      "currentPasswordIncorrect": "現在のパスワードが正しくありません",
+      "fileSizeExceeded": "ファイルサイズは2MB以下にしてください",
+      "invalidFileType": "JPEG、PNG、GIF、WebP形式の画像を選択してください"
+    }
+  }
+}

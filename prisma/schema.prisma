@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // 開発環境: sqlite、本番環境: postgresql
+  // Prisma 7では url プロパティは prisma.config.ts に移動
+}
+
+model User {
+  id                        String    @id @default(cuid())
+  username                  String    @unique
+  email                     String    @unique
+  passwordHash              String?   // 初回ログイン前はnull
+  role                      String    @default("editor") // 'admin' | 'editor'
+  displayName               String?   // 表示名（NULL時はusernameを使用）
+  avatarUrl                 String?   // アイコン画像URL（例: /uploads/avatars/xxx.jpg）
+  allowedDates              String?   // JSON配列: "[1,2,3,10,24,25]"（editorの場合）- 後方互換性のため残す
+  firstLoginToken           String?   @unique // 初回ログイン用一時トークン
+  firstLoginTokenExpiresAt  DateTime? // トークン有効期限
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+
+  articles            Article[]
+  calendars           Calendar[]                // 作成したカレンダー
+  calendarPermissions UserCalendarPermission[] // カレンダーごとの権限
+
+  @@index([role])
+  @@index([firstLoginToken])
+  @@map("users")
+}
+
+model Calendar {
+  id          String    @id @default(cuid())
+  name        String    // カレンダー名
+  year        Int       // 年度
+  slug        String    @unique // URL識別子
+  description String?   // 説明文
+  isPublished Boolean   @default(false) // 公開状態
+  theme       String?   // テーマ/カテゴリ
+  createdById String    // 作成者ID
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  createdBy   User                      @relation(fields: [createdById], references: [id])
+  articles    Article[]
+  permissions UserCalendarPermission[]
+
+  @@index([slug])
+  @@index([year])
+  @@index([isPublished])
+  @@map("calendars")
+}
+
+model Article {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  date        Int       // 1-25（カレンダー内で一意）
+  status      String    @default("draft") // 'draft' | 'published'
+  calendarId  String    // カレンダーID
+  authorId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  calendar Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags     Tag[]
+
+  @@unique([calendarId, date]) // カレンダー内で日付が一意
+  @@index([status])
+  @@index([date])
+  @@index([calendarId])
+  @@map("articles")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  articles Article[]
+
+  @@map("tags")
+}
+
+model UserCalendarPermission {
+  id           String   @id @default(cuid())
+  userId       String
+  calendarId   String
+  allowedDates String   // JSON配列: "[1,2,3]"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  calendar Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, calendarId])
+  @@index([userId])
+  @@index([calendarId])
+  @@map("user_calendar_permissions")
+}

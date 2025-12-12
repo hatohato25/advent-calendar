@@ -1,0 +1,569 @@
+{
+  "common": {
+    "appTitle": "Advent Calendar 2025",
+    "dialog": {
+      "confirmDelete": "Are you sure you want to delete this?",
+      "confirmDeleteWithName": "Delete {name}?",
+      "cannotUndo": "This action cannot be undone.",
+      "permanentDelete": "This will be permanently deleted."
+    },
+    "button": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "create": "Create",
+      "back": "Back",
+      "confirm": "Confirm",
+      "close": "Close",
+      "export": "Export",
+      "import": "Import",
+      "preview": "Preview",
+      "add": "Add",
+      "update": "Update",
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "creating": "Creating...",
+      "deleting": "Deleting...",
+      "processing": "Processing...",
+      "changing": "Changing..."
+    },
+    "label": {
+      "title": "Title",
+      "date": "Date",
+      "status": "Status",
+      "tags": "Tags",
+      "author": "Author",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "passwordConfirm": "Password (Confirm)",
+      "role": "Role",
+      "required": "*"
+    },
+    "table": {
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "name": "Name",
+      "title": "Title",
+      "date": "Date",
+      "year": "Year",
+      "status": "Status",
+      "tags": "Tags",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "username": "Username",
+      "email": "Email"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "unpublished": "Unpublished"
+    },
+    "navigation": {
+      "calendar": "Calendar",
+      "postManagement": "Posts",
+      "mypage": "My Page",
+      "calendarManagement": "Calendars",
+      "userManagement": "Users",
+      "tagManagement": "Tags",
+      "logout": "Logout"
+    },
+    "role": {
+      "admin": "Admin",
+      "editor": "Editor"
+    },
+    "theme": {
+      "changeTheme": "Change theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "changeLanguage": "Change language",
+      "japanese": "日本語",
+      "english": "English"
+    },
+    "message": {
+      "noData": "No data available",
+      "error": "An error occurred"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "grid": {
+      "today": "Today",
+      "unpublished": "Unpublished",
+      "noCalendar": "No calendars are currently published",
+      "waitForCalendar": "Calendars will appear here once created by an administrator",
+      "noMatchingArticles": "No articles match the selected criteria",
+      "weekdays": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
+    },
+    "filter": {
+      "title": "Filters",
+      "allTags": "All Tags",
+      "selectTag": "Filter by tag",
+      "reset": "Reset",
+      "activeCount": "Filtered by {count} tag(s)"
+    },
+    "management": {
+      "title": "Calendar Management",
+      "createNew": "Create Calendar",
+      "editCalendar": "Edit Calendar",
+      "deleteCalendar": "Delete Calendar",
+      "confirmDeleteArticles": "All {count} related articles will also be deleted.",
+      "description": "Create and manage advent calendars",
+      "settings": "Settings",
+      "themeLabel": "Theme:"
+    },
+    "form": {
+      "name": "Calendar Name",
+      "namePlaceholder": "e.g., Advent Calendar 2025",
+      "nameDescription": "Enter the display name for the calendar",
+      "year": "Year",
+      "yearPlaceholder": "2025",
+      "yearDescription": "Specify the calendar year (cannot be changed after creation)",
+      "slug": "Slug",
+      "slugPlaceholder": "advent-2025",
+      "slugDescription": "URL identifier (e.g., advent-2025 → /calendars/advent-2025)",
+      "slugDescriptionDetail": "Only lowercase letters, numbers, and hyphens allowed (cannot be changed after creation)",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter a description for this calendar",
+      "descriptionDescription": "Describe the purpose or theme of the calendar (max 500 characters)",
+      "isPublished": "Publication Status",
+      "isPublishedLabel": "Publish this calendar",
+      "isPublishedDescription": "Published calendars will be visible to public users",
+      "theme": "Theme",
+      "themePlaceholder": "e.g., JavaScript, DevOps, AI",
+      "themeDescription": "Enter the theme or category for this calendar"
+    },
+    "statistics": {
+      "totalCalendars": "Total Calendars",
+      "totalCalendarsDescription": "Created calendars",
+      "publishedCalendars": "Published",
+      "publishedCalendarsDescription": "Publicly visible calendars",
+      "totalArticles": "Total Articles",
+      "totalArticlesDescription": "Combined articles from all calendars",
+      "articlesCount": "{count} article(s)"
+    },
+    "table": {
+      "name": "Calendar Name",
+      "year": "Year",
+      "articleCount": "Articles",
+      "state": "Status",
+      "createdAt": "Created",
+      "openMenu": "Open menu",
+      "viewPublic": "View public page",
+      "managePosts": "Manage articles",
+      "noCalendars": "No calendars have been created yet"
+    },
+    "new": {
+      "title": "Create Calendar",
+      "description": "Create a new advent calendar"
+    },
+    "edit": {
+      "title": "Edit Calendar",
+      "metaTitle": "Edit {name}"
+    },
+    "detail": {
+      "postManagement": "Article Management",
+      "createPost": "Create Article",
+      "yearSuffix": "",
+      "noAccess": "No accessible calendars",
+      "noAccessDescription": "You don't have access to any calendars at the moment",
+      "noAccessMessage": "Please ask an administrator to grant you access to a calendar.",
+      "noAccessMessageDetail": "Once access is granted, you'll be able to create and edit articles.",
+      "backToTop": "Back to home"
+    }
+  },
+  "post": {
+    "title": "Posts",
+    "meta": {
+      "author": "Author",
+      "postedBy": "Posted by {name}",
+      "date": "December {date}"
+    },
+    "list": {
+      "title": "Post List",
+      "description": "Manage all posts",
+      "empty": "No posts found",
+      "noArticles": "No articles yet",
+      "createFirst": "Create your first article",
+      "createFromCalendar": "Create article from calendar",
+      "recentUpdates": "Recently Updated",
+      "recentUpdatesDescription": "List of recently updated articles"
+    },
+    "detail": {
+      "readMore": "Read more",
+      "previous": "Previous",
+      "next": "Next",
+      "backToCalendar": "Back to Calendar",
+      "published": "Published",
+      "updated": "Updated",
+      "author": "Author:",
+      "view": "View",
+      "viewCalendar": "View calendar"
+    },
+    "editor": {
+      "title": "Post Editor",
+      "createNew": "Create New Post",
+      "editPost": "Edit Post",
+      "preview": "Preview",
+      "markdown": "Markdown",
+      "toolbar": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "heading": "Heading",
+        "link": "Link",
+        "image": "Image",
+        "code": "Code Block"
+      },
+      "loading": "Loading editor...",
+      "autoSave": "Changes are auto-saved after 2 seconds. You can also save with Ctrl+S (Cmd+S).",
+      "manualSave": "Press Ctrl+S (Cmd+S) to save. Live Markdown preview is displayed."
+    },
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter article title",
+      "date": "Publication Date",
+      "selectDate": "Select December date",
+      "content": "Content (Markdown)",
+      "tags": "Tags",
+      "tagPlaceholder": "Enter tag and press Enter",
+      "tagMax": "Maximum 10 tags allowed",
+      "status": "Status",
+      "required": "*",
+      "dateFormat": "Dec {date}",
+      "notFound": "Article not found",
+      "backToCalendar": "Back to calendar management",
+      "editDescription": "Edit article for December {date}",
+      "createDescription": "Create an advent calendar article",
+      "noPermission": "You don't have permission to create articles for this calendar.",
+      "noPermissionMessage": "Please ask an administrator to grant you access to specific dates.",
+      "noPermissionEdit": "You don't have permission to edit the date for this article (Dec {date}). Date cannot be changed.",
+      "noPermissionEditMessage": "The current date is not in your allowed dates, so date cannot be changed."
+    },
+    "action": {
+      "export": "Export",
+      "import": "Import",
+      "delete": "Delete",
+      "confirmDeleteMessage": "This action cannot be undone. Article \"{title}\" will be permanently deleted."
+    },
+    "preview": {
+      "title": "Preview",
+      "description": "Preview from editor"
+    },
+    "filter": {
+      "title": "Filter & Sort",
+      "status": "Status:",
+      "statusAll": "All",
+      "sortBy": "Sort by:",
+      "sortByDate": "By Date",
+      "sortByUpdated": "By Update Time"
+    },
+    "table": {
+      "calendar": "Calendar",
+      "date": "Date",
+      "title": "Title",
+      "status": "Status",
+      "tags": "Tags",
+      "updatedAt": "Updated",
+      "unknown": "Unknown"
+    },
+    "statistics": {
+      "totalArticles": "Total Articles",
+      "totalArticlesDescription": "/ {count} days",
+      "publishedArticles": "Published",
+      "publishedArticlesDescription": "Public articles",
+      "draftArticles": "Drafts",
+      "draftArticlesDescription": "In progress",
+      "emptyDays": "Unposted",
+      "emptyDaysDescription": "Available days"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "postManagement": "Article Management",
+      "calendarSettings": "Calendar Settings",
+      "statistics": {
+        "totalPosts": "Total Posts",
+        "publishedPosts": "Published Posts",
+        "draftPosts": "Draft Posts",
+        "totalCalendars": "Total Calendars"
+      }
+    },
+    "users": {
+      "title": "User Management",
+      "description": "Create, edit, and delete users",
+      "createNew": "Create New User",
+      "addButton": "Add New User",
+      "editUser": "Edit User",
+      "deleteUser": "Delete User",
+      "create": {
+        "title": "Create User",
+        "description": "Create a new user. Calendar permissions can be set from the edit screen after user creation.",
+        "successMessage": "User created successfully. Please share the following URL with the user.",
+        "emailLabel": "Email *",
+        "emailHelp": "Username will be automatically generated from the email address (before @)",
+        "roleLabel": "Role *",
+        "roleAdmin": "Administrator",
+        "roleEditor": "Editor",
+        "createError": "Failed to create user"
+      },
+      "edit": {
+        "title": "Edit User",
+        "description": "Edit user information and calendar permissions.",
+        "usernameLabel": "Username *",
+        "emailLabel": "Email *",
+        "roleLabel": "Role *",
+        "roleAdmin": "Administrator",
+        "roleEditor": "Editor",
+        "passwordResetButton": "Reset Password",
+        "passwordResetHelp": "Issue a new password reset URL",
+        "passwordResetSuccess": "A new password reset URL has been issued. Please share the following URL with the user.",
+        "updateError": "Failed to update user",
+        "tokenError": "Failed to issue token",
+        "tabBasic": "Basic Info",
+        "tabPermissions": "Calendar Permissions"
+      },
+      "statistics": {
+        "totalUsers": "Total Users",
+        "totalUsersDescription": "Registered users",
+        "adminUsers": "Administrators",
+        "adminUsersDescription": "Full access accounts",
+        "editorUsers": "Editors",
+        "editorUsersDescription": "Limited date access accounts",
+        "usersWithoutPassword": "Not Set Up",
+        "usersWithoutPasswordDescription": "Password not set"
+      },
+      "table": {
+        "title": "User List",
+        "description": "List of registered users and management operations",
+        "username": "Username",
+        "email": "Email",
+        "roleColumn": "Role",
+        "allowedCalendars": "Allowed Calendars",
+        "password": "Password",
+        "passwordSet": "Set",
+        "passwordNotSet": "Not Set",
+        "registeredAt": "Registered",
+        "noUsers": "No users registered",
+        "edit": "Edit",
+        "delete": "Delete",
+        "resetToken": "Reset Token",
+        "none": "None",
+        "resetTokenSuccess": "New first-login URL copied to clipboard",
+        "resetTokenError": "Failed to reset token",
+        "resetTokenManual": "Please copy the first-login URL manually:\n\n{url}",
+        "cannotDeleteYourself": "You cannot delete yourself"
+      },
+      "permissions": {
+        "title": "Calendar Permissions",
+        "description": "Manage the calendars and dates this user can access.",
+        "adminNote": "Administrators have full access to all calendars.",
+        "editorOnly": "Calendar permissions are only required for editors.",
+        "noPermissions": "This user is not assigned to any calendars.",
+        "addButton": "Use the \"Add Calendar Permission\" button below to add permissions.",
+        "addDialogButton": "Add Calendar Permission",
+        "table": {
+          "calendarName": "Calendar Name",
+          "year": "Year",
+          "allowedDates": "Allowed Dates",
+          "allDates": "All",
+          "dateFormat": "Dec {date}",
+          "otherDates": "+{count} more"
+        }
+      }
+    },
+    "tags": {
+      "title": "Tag Management",
+      "description": "Manage tags for articles",
+      "createNew": "Create New Tag",
+      "createDescription": "Create tags for use in articles",
+      "editTag": "Edit Tag",
+      "deleteTag": "Delete Tag",
+      "confirmDeleteMessage": "Tag \"{name}\" will be deleted. This action cannot be undone.",
+      "list": {
+        "title": "Tag List",
+        "description": "{total} total tags ({unused} unused)",
+        "empty": "No tags found"
+      },
+      "form": {
+        "name": "Tag Name",
+        "namePlaceholder": "Enter tag name"
+      },
+      "unused": {
+        "deleteAll": "Delete All Unused Tags",
+        "confirmDeleteMessage": "{count} unused tags will be deleted. This action cannot be undone."
+      },
+      "table": {
+        "name": "Tag Name",
+        "slug": "Slug",
+        "articleCount": "Articles",
+        "inUse": "In Use"
+      }
+    },
+    "import": {
+      "title": "Import Article",
+      "description": "Upload a Markdown file to create an article",
+      "fileLabel": "Markdown File",
+      "fileDescription": "Please upload a Markdown file (.md) with frontmatter",
+      "previewLabel": "Markdown Preview",
+      "overwriteLabel": "Overwrite if an article exists for the same date",
+      "successRedirect": "Redirecting to dashboard in 3 seconds...",
+      "frontmatter": {
+        "title": "Frontmatter Format",
+        "description": "The Markdown file must include frontmatter at the top in the following format:",
+        "titleField": "Article Title",
+        "titleRequired": "Required",
+        "dateField": "December Date",
+        "dateRange": "1-25",
+        "statusField": "Publication Status",
+        "statusOptions": "published or draft",
+        "tagsField": "Tag List",
+        "tagsOptional": "Optional"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Administrator Login",
+      "description": "Advent Calendar Admin Panel",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Login",
+      "submitting": "Logging in...",
+      "error": "Login failed",
+      "errorInvalid": "Invalid email or password",
+      "errorGeneric": "An error occurred during login"
+    },
+    "firstLogin": {
+      "title": "First Login",
+      "setPasswordTitle": "Set Password",
+      "setPasswordDescription": "Please set your password for first login",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "passwordConfirm": "Password (Confirm)",
+      "submit": "Set Password & Login",
+      "submitting": "Setting up...",
+      "invalidToken": "Invalid Token",
+      "invalidTokenMessage": "Please ask an administrator to issue a new first-login URL.",
+      "tokenNotSpecified": "Token not specified",
+      "tokenVerificationFailed": "Token verification failed",
+      "error": {
+        "passwordMismatch": "Passwords do not match",
+        "setPasswordFailed": "Failed to set password",
+        "loginFailed": "Login failed",
+        "generic": "An error occurred"
+      }
+    }
+  },
+  "error": {
+    "notFound": "Page not found",
+    "internalError": "Internal server error",
+    "unauthorized": "Authentication required",
+    "forbidden": "Access denied",
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Minimum {min} characters required",
+      "maxLength": "Maximum {max} characters allowed",
+      "email": "Please enter a valid email address",
+      "uniqueSlug": "This slug is already in use"
+    },
+    "post": {
+      "fetchFailed": "Failed to fetch article",
+      "createFailed": "Failed to create article",
+      "createError": "An error occurred while creating the article",
+      "updateFailed": "Failed to update article",
+      "updateError": "An error occurred while updating the article",
+      "deleteFailed": "Failed to delete article",
+      "deleteError": "An error occurred while deleting the article",
+      "exportFailed": "Failed to export article",
+      "exportError": "An error occurred while exporting the article"
+    },
+    "calendar": {
+      "notFound": "Calendar not found",
+      "slugInUse": "This slug is already in use"
+    },
+    "tag": {
+      "fetchFailed": "Failed to fetch tags",
+      "createFailed": "Failed to create tag",
+      "createError": "An error occurred while creating the tag",
+      "deleteFailed": "Failed to delete tag",
+      "deleteError": "An error occurred while deleting the tag",
+      "deleteUnusedError": "An error occurred while deleting unused tags",
+      "noUnused": "No unused tags available to delete"
+    }
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "created": "Created successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully",
+    "exported": "Exported successfully",
+    "imported": "Imported successfully"
+  },
+  "mypage": {
+    "title": "My Page",
+    "subtitle": "Manage your profile information and password",
+    "profile": {
+      "avatar": "Profile Picture",
+      "avatarUpload": "Select Image",
+      "avatarDelete": "Delete",
+      "avatarHelp": "Upload images in JPEG, PNG, GIF, or WebP format (2MB or less)",
+      "uploading": "Uploading...",
+      "deleting": "Deleting...",
+      "basicInfo": "Basic Information",
+      "displayName": "Display Name",
+      "displayNamePlaceholder": "Enter display name",
+      "displayNameHelp": "Username will be displayed if left blank",
+      "email": "Email Address",
+      "emailReadOnly": "Email address cannot be changed",
+      "createdAt": "Registered At",
+      "saveButton": "Save",
+      "saveSuccess": "Profile updated successfully",
+      "uploadSuccess": "Avatar uploaded successfully",
+      "deleteSuccess": "Avatar deleted successfully"
+    },
+    "password": {
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "newPasswordConfirm": "Confirm New Password",
+      "newPasswordConfirmPlaceholder": "Re-enter new password",
+      "changeButton": "Change",
+      "changeSuccess": "Password changed successfully",
+      "passwordStrength": "Password Strength",
+      "passwordHint": "At least 8 characters, including uppercase, lowercase, numbers, and symbols (@$!%*?&)",
+      "passwordWeak": "Weak",
+      "passwordFair": "Fair",
+      "passwordGood": "Good",
+      "passwordStrong": "Strong"
+    },
+    "error": {
+      "uploadFailed": "Failed to upload image",
+      "deleteFailed": "Failed to delete image",
+      "updateFailed": "Failed to update profile",
+      "passwordChangeFailed": "Failed to change password",
+      "currentPasswordIncorrect": "Current password is incorrect",
+      "fileSizeExceeded": "File size must be 2MB or less",
+      "invalidFileType": "Please select a JPEG, PNG, GIF, or WebP image"
+    }
+  }
+}
