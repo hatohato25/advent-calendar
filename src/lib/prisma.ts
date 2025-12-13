@@ -6,7 +6,7 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Prisma 7: adapter を使用した直接データベース接続
+// Prisma 7.1: adapter を使用した直接データベース接続
 // データベースURLに応じて適切なadapterを選択
 function createPrismaClient() {
   const databaseUrl = process.env.DATABASE_URL;
@@ -24,7 +24,8 @@ function createPrismaClient() {
     return new PrismaClient();
   }
 
-  // SQLite/libSQLの場合のみadapterを使用
+  // SQLite/libSQLの場合: PrismaLibSqlにURLを直接渡す
+  // Prisma 7.1.0では、url文字列を渡すことで内部的に@libsql/clientを初期化する
   if (databaseUrl.startsWith("file:") || databaseUrl.startsWith("libsql://")) {
     const adapter = new PrismaLibSql({
       url: databaseUrl,
