@@ -1,4 +1,5 @@
 import { PrismaLibSql } from "@prisma/adapter-libsql";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
 
 // グローバルスコープに型を追加（開発環境でのホットリロード対応）
@@ -19,13 +20,16 @@ function createPrismaClient() {
     );
   }
 
-  // PostgreSQLの場合はadapterを使用しない（Prismaのデフォルトドライバー使用）
+  // PostgreSQL (Neon) の場合: PrismaNeonアダプターを使用
+  // Prisma 7.1.0では、Neon Serverless Driver経由での接続が推奨される
   if (databaseUrl.startsWith("postgresql://") || databaseUrl.startsWith("postgres://")) {
-    return new PrismaClient();
+    const poolConfig = { connectionString: databaseUrl };
+    const adapter = new PrismaNeon(poolConfig);
+    return new PrismaClient({ adapter });
   }
 
-  // SQLite/libSQLの場合: PrismaLibSqlにURLを直接渡す
-  // Prisma 7.1.0では、url文字列を渡すことで内部的に@libsql/clientを初期化する
+  // SQLite/libSQLの場合: PrismaLibSqlアダプターにConfig型のオブジェクトを渡す
+  // Prisma 7.1.0では、PrismaLibSqlはConfig型（{ url: string }）を受け取る
   if (databaseUrl.startsWith("file:") || databaseUrl.startsWith("libsql://")) {
     const adapter = new PrismaLibSql({
       url: databaseUrl,
