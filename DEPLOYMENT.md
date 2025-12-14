@@ -9,13 +9,21 @@
 - **ローカル環境**: SQLite (`file:./dev.db`)
 - **本番環境 (Vercel)**: PostgreSQL (Neon Serverless)
 
+### 仕組み
+
+ビルド時に環境変数 `DATABASE_URL` の値に応じて、`prisma/schema.prisma` のプロバイダーが自動的に書き換わります：
+
+1. **ビルド前スクリプト** (`scripts/prepare-schema.js`) が実行される
+2. `DATABASE_URL` が `postgresql://` で始まる場合 → `provider = "postgresql"`
+3. `DATABASE_URL` が `file:` で始まる場合 → `provider = "sqlite"`
+4. その後、`prisma generate` が実行され、適切なPrisma Clientが生成される
+5. 実行時は `src/lib/prisma.ts` で適切なアダプター (`PrismaNeon` または `PrismaLibSql`) が選択される
+
 ### 注意点
 
-- `prisma/schema.prisma` のプロバイダーは **`sqlite` のまま** でコミットされています
-- Vercel環境では、環境変数 `DATABASE_URL` にPostgreSQL接続文字列を設定することで、自動的にPostgreSQLに切り替わります
-- この仕組みは `prisma.config.ts` と `src/lib/prisma.ts` で実装されています
-
-**スキーマファイルを変更する必要はありません！**
+- `prisma/schema.prisma` は**gitにコミットされるとき**は `provider = "sqlite"` の状態です
+- ビルド時に自動的に書き換わるため、手動で変更する必要はありません
+- ローカル開発では自動的にSQLiteが使用されます
 
 ## 必須環境変数
 
