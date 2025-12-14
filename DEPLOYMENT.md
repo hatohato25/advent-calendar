@@ -1,235 +1,242 @@
 # デプロイメントガイド
 
-## データベースのセットアップ
+このドキュメントでは、アドベントカレンダーアプリケーションをVercelにデプロイする際の設定について説明します。
 
-### 開発環境（SQLite）
+## ⚠️ 重要: データベース設定について
 
-開発環境では SQLite を使用します。
+本アプリケーションは、**環境によってデータベースを自動的に切り替える**仕組みを採用しています：
 
-```bash
-# マイグレーション実行
-npx prisma migrate dev
+- **ローカル環境**: SQLite (`file:./dev.db`)
+- **本番環境 (Vercel)**: PostgreSQL (Neon Serverless)
 
-# シードデータ投入
-npx prisma db seed
-```
+### 注意点
 
-### 本番環境（PostgreSQL）
+- `prisma/schema.prisma` のプロバイダーは **`sqlite` のまま** でコミットされています
+- Vercel環境では、環境変数 `DATABASE_URL` にPostgreSQL接続文字列を設定することで、自動的にPostgreSQLに切り替わります
+- この仕組みは `prisma.config.ts` と `src/lib/prisma.ts` で実装されています
 
-本番環境では PostgreSQL を使用します。Vercel Postgres または Supabase を推奨します。
+**スキーマファイルを変更する必要はありません！**
 
-#### 1. データベースプロバイダーの選択
+## 必須環境変数
 
-**Vercel Postgres (推奨)**
-- Vercel ダッシュボードから Postgres データベースを作成
-- 接続文字列を取得
+Vercelのプロジェクト設定で、以下の環境変数を設定してください。
 
-**Supabase**
-- [Supabase](https://supabase.com/) でプロジェクト作成
-- Settings → Database → Connection string を取得
-
-#### 2. スキーマの変更
-
-`prisma/schema.prisma` の provider を変更：
-
-```prisma
-datasource db {
-  provider = "postgresql" // sqlite から変更
-  url      = env("DATABASE_URL")
-}
-```
-
-#### 3. 環境変数の設定
-
-Vercel ダッシュボードで以下の環境変数を設定：
+### 1. DATABASE_URL (必須)
 
 ```bash
-DATABASE_URL=postgresql://user:password@host:5432/dbname?schema=public
-NEXTAUTH_URL=https://your-domain.vercel.app
-NEXTAUTH_SECRET=<強力なランダム文字列>
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=<強力なパスワード>
-ADMIN_EMAIL=admin@example.com
+DATABASE_URL="postgresql://user:password@host:5432/database?sslmode=require"
 ```
 
-#### 4. マイグレーション実行
+**Neon PostgreSQLの接続文字列を使用してください**
 
-デプロイ後、Vercel のコンソールまたはローカルで実行：
+- [Neon](https://neon.tech/) でプロジェクトを作成
+- ダッシュボードから接続文字列を取得
+- 形式: `postgresql://[user]:[password]@[host]/[database]?sslmode=require`
+- 例: `postgresql://neondb_owner:xxxxx@ep-xxxxx.us-east-2.aws.neon.tech/neondb?sslmode=require`
+
+> **重要**: Neon Serverless Driverを使用するため、必ず **Neon PostgreSQL** を使用してください。
+> 通常のPostgreSQLでは動作しません（`@prisma/adapter-neon` の制約）。
+
+### 2. NEXTAUTH_URL (必須)
 
 ```bash
-# Vercel CLI でマイグレーション
+NEXTAUTH_URL="https://your-app-name.vercel.app"
+```
+
+- デプロイされたアプリケーションのURL
+- 本番環境のドメインを設定 (例: `https://advent-calendar.vercel.app`)
+
+### 3. NEXTAUTH_SECRET (必須)
+
+```bash
+NEXTAUTH_SECRET="<ランダムな長い文字列>"
+```
+
+- 暗号化用のシークレットキー
+- 強固なランダム文字列を生成してください
+- 生成方法: `openssl rand -base64 32`
+
+### 4. 管理者アカウント (必須)
+
+```bash
+ADMIN_USERNAME="admin"
+ADMIN_EMAIL="admin@example.com"
+ADMIN_PASSWORD="<強固なパスワード>"
+```
+
+- **ADMIN_USERNAME**: アプリケーション内での表示名
+- **ADMIN_EMAIL**: ログイン時のIDとして使用
+- **ADMIN_PASSWORD**: ログイン時のパスワード（強固なものを設定）
+
+## Vercel環境変数の設定手順
+
+### 方法1: Vercel CLI を使用
+
+```bash
+# Vercelプロジェクトにログイン
+vercel login
+
+# 環境変数を設定
+vercel env add DATABASE_URL production
+# プロンプトでNeon PostgreSQLの接続文字列を入力
+
+vercel env add NEXTAUTH_URL production
+# プロンプトで本番URLを入力
+
+vercel env add NEXTAUTH_SECRET production
+# プロンプトでシークレットを入力
+
+vercel env add ADMIN_USERNAME production
+vercel env add ADMIN_EMAIL production
+vercel env add ADMIN_PASSWORD production
+```
+
+### 方法2: Vercel Dashboard を使用
+
+1. [Vercelダッシュボード](https://vercel.com/dashboard)でプロジェクトを選択
+2. **Settings** → **Environment Variables** に移動
+3. 各環境変数を追加:
+   - 変数名を入力
+   - 値を入力
+   - 環境を選択 (Production, Preview, Development)
+   - **Add** をクリック
+
+## データベースマイグレーション
+
+Vercelへの初回デプロイ後、データベースマイグレーションを実行する必要があります。
+
+### 推奨方法: ローカルから実行
+
+```bash
+# 1. Vercel環境変数を取得
 vercel env pull .env.production
-npx prisma migrate deploy
 
-# シードデータ投入（初回のみ）
-npx prisma db seed
+# 2. .env.productionからDATABASE_URLを抽出して実行
+DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2- | tr -d '"')" npx prisma migrate deploy
+
+# 3. シードデータを投入（初回のみ）
+DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2- | tr -d '"')" npx prisma db seed
 ```
 
-## セキュリティ設定
-
-### 1. NEXTAUTH_SECRET の生成
-
-強力なランダム文字列を生成：
+### 代替方法: 直接指定
 
 ```bash
-openssl rand -base64 32
+# DATABASE_URLを直接指定して実行
+DATABASE_URL="postgresql://..." npx prisma migrate deploy
+DATABASE_URL="postgresql://..." npx prisma db seed
 ```
 
-### 2. セキュリティヘッダーの設定
+## デプロイ後の確認
 
-`next.config.ts` にセキュリティヘッダーを追加（オプション）：
+### 1. アプリケーションの起動確認
 
-```typescript
-const nextConfig: NextConfig = {
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
-    ];
-  },
-};
-```
+デプロイが完了したら、以下を確認してください：
 
-### 3. CORS設定
+- Vercelダッシュボードでビルドログを確認
+- デプロイされたURLにアクセスして、正常に表示されるか確認
 
-API Routes は同一オリジンのみ許可（デフォルト設定で OK）
+### 2. データベース接続の確認
 
-## デプロイ手順
+- トップページが表示されるか確認
+- Vercelのログで `PrismaClientInitializationError` などのエラーが出ていないか確認
 
-### Vercel へのデプロイ
+### 3. 管理者ログインの確認
 
-1. **GitHub リポジトリと連携**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin https://github.com/username/advent-calendar.git
-   git push -u origin main
-   ```
-
-2. **Vercel でプロジェクトをインポート**
-   - [Vercel Dashboard](https://vercel.com/dashboard) にアクセス
-   - "Add New" → "Project" をクリック
-   - GitHub リポジトリを選択
-
-3. **環境変数を設定**
-   - Environment Variables セクションで `.env.production.example` の内容を参考に設定
-
-4. **デプロイ**
-   - "Deploy" ボタンをクリック
-   - ビルドとデプロイが自動実行される
-
-5. **データベースセットアップ**
-   ```bash
-   # Vercel CLI をインストール
-   npm i -g vercel
-
-   # 本番環境にログイン
-   vercel login
-
-   # 環境変数をダウンロード
-   vercel env pull .env.production
-
-   # マイグレーション実行
-   DATABASE_URL="<本番環境のDATABASE_URL>" npx prisma migrate deploy
-
-   # シードデータ投入
-   DATABASE_URL="<本番環境のDATABASE_URL>" npx prisma db seed
-   ```
+1. `/ja/login` にアクセス
+2. 設定した管理者アカウントでログイン
+3. `/ja/admin` にアクセスできるか確認
 
 ## トラブルシューティング
 
-### マイグレーションエラー
+### エラー: `PrismaClientInitializationError`
 
-**問題**: `Error: P1001: Can't reach database server`
-
-**解決策**:
-- DATABASE_URL が正しいか確認
-- データベースサーバーが起動しているか確認
-- ファイアウォール設定を確認（Vercel IP を許可）
-
-### ビルドエラー
-
-**問題**: `Type error: ...`
+**原因**: DATABASE_URLが設定されていない、または接続文字列が無効
 
 **解決策**:
-```bash
-# ローカルで型チェック
-npm run build
+1. Vercel環境変数で `DATABASE_URL` が正しく設定されているか確認
+2. Neonダッシュボードで接続文字列を再確認
+3. 接続文字列の形式: `postgresql://[user]:[password]@[host]/[database]?sslmode=require`
 
-# Prisma Client を再生成
-npx prisma generate
-```
+### エラー: マイグレーションが実行されていない
 
-### 認証エラー
-
-**問題**: ログインできない
+**原因**: データベーススキーマが初期化されていない
 
 **解決策**:
-- NEXTAUTH_URL が本番ドメインと一致しているか確認
-- NEXTAUTH_SECRET が設定されているか確認
-- シードデータが投入されているか確認
-
-## パフォーマンス確認
-
-デプロイ後、以下を確認：
-
 ```bash
-# Lighthouse 監査
-npx lighthouse https://your-domain.vercel.app --view
-
-# Core Web Vitals 確認
-# Vercel Analytics で確認可能
+# ローカルから本番データベースに対してマイグレーション実行
+DATABASE_URL="postgresql://..." npx prisma migrate deploy
+DATABASE_URL="postgresql://..." npx prisma db seed
 ```
 
-## バックアップ
+### エラー: `@prisma/adapter-neon` 関連エラー
 
-### データベースバックアップ
+**原因**: Prisma Clientが正しく生成されていない、またはNeon以外のPostgreSQLを使用している
 
-**Vercel Postgres**:
-- 自動バックアップが有効（Pro プラン以上）
+**解決策**:
+1. **必ずNeon PostgreSQLを使用**してください（通常のPostgreSQLは非対応）
+2. `package.json` の `postinstall` スクリプトで `prisma generate` が実行されることを確認
+3. Vercelで再デプロイ
 
-**手動バックアップ**:
+### エラー: ログインできない
+
+**原因**: NextAuth設定または管理者アカウントが正しくない
+
+**解決策**:
+1. `NEXTAUTH_URL` が本番ドメインと一致しているか確認
+2. `NEXTAUTH_SECRET` が設定されているか確認
+3. `ADMIN_EMAIL`, `ADMIN_PASSWORD` が正しく設定されているか確認
+4. シードデータが投入されているか確認
+
+## デプロイ手順（概要）
+
+### 1. Neon PostgreSQLのセットアップ
+
+1. [Neon](https://neon.tech/) でアカウント作成
+2. 新しいプロジェクトを作成
+3. 接続文字列をコピー（後でVercelで使用）
+
+### 2. GitHubリポジトリの準備
+
 ```bash
-# PostgreSQL のダンプ取得
-pg_dump $DATABASE_URL > backup.sql
-
-# リストア
-psql $DATABASE_URL < backup.sql
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/username/advent-calendar.git
+git push -u origin main
 ```
 
-### 記事データのエクスポート
+### 3. Vercelでプロジェクトをインポート
 
-管理画面から Markdown ファイルとしてエクスポート可能：
-- 各記事の編集ページで「エクスポート」ボタン
-- または `/admin` から「すべてエクスポート」
+1. [Vercel Dashboard](https://vercel.com/dashboard) にアクセス
+2. "Add New" → "Project" をクリック
+3. GitHubリポジトリを選択
+4. 上記の「必須環境変数」セクションに従って環境変数を設定
+5. "Deploy" をクリック
 
-## モニタリング
+### 4. データベースマイグレーションを実行
 
-### Vercel Analytics
+デプロイ完了後、ローカルから以下を実行：
 
-- Vercel ダッシュボードで自動的に有効化
-- Core Web Vitals、訪問者数などを確認可能
-
-### エラートラッキング（オプション）
-
-Sentry 連携を検討：
 ```bash
-npm install @sentry/nextjs
-npx @sentry/wizard -i nextjs
+# Vercel環境変数を取得
+vercel env pull .env.production
+
+# マイグレーション実行
+DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2- | tr -d '"')" npx prisma migrate deploy
+
+# シードデータ投入
+DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2- | tr -d '"')" npx prisma db seed
 ```
+
+### 5. 動作確認
+
+1. デプロイされたURLにアクセス
+2. `/ja/login` で管理者ログイン
+3. カレンダーと記事が正常に表示されることを確認
+
+## 参考リンク
+
+- [Vercel Environment Variables](https://vercel.com/docs/concepts/projects/environment-variables)
+- [Prisma with Vercel](https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-vercel)
+- [Neon Serverless Driver](https://neon.tech/docs/serverless/serverless-driver)
+- [NextAuth.js Documentation](https://next-auth.js.org/getting-started/introduction)

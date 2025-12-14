@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // 開発環境: sqlite、本番環境: postgresql
+  provider = "sqlite"
   // Prisma 7では url プロパティは prisma.config.ts に移動
 }
 

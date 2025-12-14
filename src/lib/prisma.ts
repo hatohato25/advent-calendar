@@ -20,8 +20,8 @@ function createPrismaClient() {
     );
   }
 
-  // PostgreSQL (Neon) の場合: PrismaNeonアダプターを使用
-  // Prisma 7.1.0では、Neon Serverless Driver経由での接続が推奨される
+  // PostgreSQL の場合
+  // 常にPrismaNeonアダプターを使用（Prisma 7.1.0の要件）
   if (databaseUrl.startsWith("postgresql://") || databaseUrl.startsWith("postgres://")) {
     const poolConfig = { connectionString: databaseUrl };
     const adapter = new PrismaNeon(poolConfig);
