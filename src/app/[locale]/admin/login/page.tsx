@@ -40,7 +40,9 @@ function LoginForm() {
 
       // ログイン成功時は管理ダッシュボードにリダイレクト
       const callbackUrl = searchParams.get("callbackUrl") || "/admin";
-      router.push(callbackUrl);
+      // callbackUrlからロケールプレフィックス（/ja, /en など）を削除
+      const pathWithoutLocale = callbackUrl.replace(/^\/[a-z]{2}\//, "/");
+      router.push(pathWithoutLocale);
       router.refresh();
     } catch {
       setError(t("errorGeneric"));
