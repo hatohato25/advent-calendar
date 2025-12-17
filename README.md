@@ -275,10 +275,6 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for Vercel deployment instructions.
 
 ```
 advent-calendar/
-├── .claude/                # Agent management files
-│   ├── requirements.md
-│   ├── design.md
-│   └── tasks.md
 ├── playwright/             # Playwright scripts
 │   ├── config.ts           # Playwright configuration
 │   ├── scripts/            # Screenshot capture scripts
