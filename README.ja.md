@@ -275,10 +275,6 @@ Vercel へのデプロイ方法は [DEPLOYMENT.md](./DEPLOYMENT.md) を参照し
 
 ```
 advent-calendar/
-├── .claude/                # Agent 管理ファイル
-│   ├── requirements.md
-│   ├── design.md
-│   └── tasks.md
 ├── playwright/             # Playwright スクリプト
 │   ├── config.ts           # Playwright 設定
 │   ├── scripts/            # スクリーンショット取得スクリプト
