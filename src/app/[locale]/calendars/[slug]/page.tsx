@@ -50,7 +50,7 @@ export const revalidate = 60;
 export default async function CalendarPage({ params }: CalendarPageProps) {
   const { slug } = await params;
 
-  // カレンダー取得（公開済みのみ）
+  // 第1ステップ: カレンダー取得（公開済みのみ）
   const calendar = await prisma.calendar.findUnique({
     where: {
       slug,
@@ -62,28 +62,58 @@ export default async function CalendarPage({ params }: CalendarPageProps) {
     notFound();
   }
 
-  // カレンダーの記事を取得（公開済みのみ）
-  const articles = await prisma.article.findMany({
-    where: {
-      calendarId: calendar.id,
-      status: "published",
-    },
-    include: {
-      tags: true,
-      author: {
-        select: {
-          id: true,
-          username: true,
-          email: true,
-          displayName: true,
-          avatarUrl: true,
+  // 第2ステップ: 残りのデータを並列取得
+  // WHY: articles/tags/allCalendarsの取得は互いに依存しないため並列化可能
+  // WHY: 並列化により1.5〜2秒のレイテンシ削減が期待できる
+  const [articles, tags, allCalendars] = await Promise.all([
+    // カレンダーの記事を取得（公開済みのみ）
+    prisma.article.findMany({
+      where: {
+        calendarId: calendar.id,
+        status: "published",
+      },
+      include: {
+        tags: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            displayName: true,
+            avatarUrl: true,
+          },
         },
       },
-    },
-    orderBy: {
-      date: "asc",
-    },
-  });
+      orderBy: {
+        date: "asc",
+      },
+    }),
+    // このカレンダーで使用されているタグのみ取得（フィルタ用）
+    // WHY: すべてのタグではなく、このカレンダーの記事に関連するタグのみ取得することで
+    // 不要なデータ転送を削減し、フィルタUIに表示するタグを絞り込む
+    prisma.tag.findMany({
+      where: {
+        articles: {
+          some: {
+            calendarId: calendar.id,
+            status: "published",
+          },
+        },
+      },
+      orderBy: {
+        name: "asc",
+      },
+    }),
+    // 公開中の全カレンダーを取得（切り替え用）
+    prisma.calendar.findMany({
+      where: {
+        isPublished: true,
+      },
+      orderBy: {
+        year: "desc",
+      },
+    }),
+  ]);
 
   // 型変換
   const articleList: ArticleListItem[] = articles.map((article: (typeof articles)[0]) => ({
@@ -109,28 +139,11 @@ export default async function CalendarPage({ params }: CalendarPageProps) {
     updatedAt: article.updatedAt,
   }));
 
-  // すべてのタグを取得（フィルタ用）
-  const tags = await prisma.tag.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
-
   const tagList: TagSimple[] = tags.map((tag: (typeof tags)[0]) => ({
     id: tag.id,
     name: tag.name,
     slug: tag.slug,
   }));
-
-  // 公開中の全カレンダーを取得（切り替え用）
-  const allCalendars = await prisma.calendar.findMany({
-    where: {
-      isPublished: true,
-    },
-    orderBy: {
-      year: "desc",
-    },
-  });
 
   return (
     <>

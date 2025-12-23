@@ -50,7 +50,7 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  // カレンダー取得（公開済みのみ）
+  // 第1ステップ: カレンダー取得（公開済みのみ）
   const calendar = await prisma.calendar.findUnique({
     where: {
       slug,
@@ -62,58 +62,62 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  // 記事を取得（公開済み、該当カレンダーのみ）
-  const article = await prisma.article.findFirst({
-    where: {
-      calendarId: calendar.id,
-      date: dateNumber,
-      status: "published",
-    },
-    include: {
-      tags: true,
-      author: {
-        select: {
-          id: true,
-          username: true,
-          email: true,
-          displayName: true,
-          avatarUrl: true,
+  // 第2ステップ: 記事と前後の記事を並列取得
+  // WHY: article/previousArticle/nextArticleの取得は互いに依存しないため並列化可能
+  // WHY: 並列化により500ms〜1秒のレイテンシ削減が期待できる
+  const [article, previousArticle, nextArticle] = await Promise.all([
+    // 記事を取得（公開済み、該当カレンダーのみ）
+    prisma.article.findFirst({
+      where: {
+        calendarId: calendar.id,
+        date: dateNumber,
+        status: "published",
+      },
+      include: {
+        tags: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            displayName: true,
+            avatarUrl: true,
+          },
         },
       },
-    },
-  });
+    }),
+    // 前の記事を取得（同じカレンダー内）
+    prisma.article.findFirst({
+      where: {
+        calendarId: calendar.id,
+        date: { lt: dateNumber },
+        status: "published",
+      },
+      orderBy: { date: "desc" },
+      select: {
+        date: true,
+        title: true,
+      },
+    }),
+    // 次の記事を取得（同じカレンダー内）
+    prisma.article.findFirst({
+      where: {
+        calendarId: calendar.id,
+        date: { gt: dateNumber },
+        status: "published",
+      },
+      orderBy: { date: "asc" },
+      select: {
+        date: true,
+        title: true,
+      },
+    }),
+  ]);
 
   // 記事が存在しない場合は404
   if (!article) {
     notFound();
   }
-
-  // 前後の記事を取得（同じカレンダー内）
-  const previousArticle = await prisma.article.findFirst({
-    where: {
-      calendarId: calendar.id,
-      date: { lt: dateNumber },
-      status: "published",
-    },
-    orderBy: { date: "desc" },
-    select: {
-      date: true,
-      title: true,
-    },
-  });
-
-  const nextArticle = await prisma.article.findFirst({
-    where: {
-      calendarId: calendar.id,
-      date: { gt: dateNumber },
-      status: "published",
-    },
-    orderBy: { date: "asc" },
-    select: {
-      date: true,
-      title: true,
-    },
-  });
 
   return (
     <>
@@ -199,24 +203,31 @@ export default async function PostPage({ params }: PostPageProps) {
 
 /**
  * SSG用に全記事のパラメータを生成
+ * WHY: 公開記事のみをDB側でフィルタリングすることで、不要なデータ転送を削減
+ * WHY: 必要なフィールドのみ取得することで、メモリ使用量を削減
  */
 export async function generateStaticParams() {
   const articles = await prisma.article.findMany({
     where: {
       status: "published",
+      calendar: {
+        isPublished: true,
+      },
     },
-    include: {
-      calendar: true,
+    select: {
+      date: true,
+      calendar: {
+        select: {
+          slug: true,
+        },
+      },
     },
   });
 
-  // 公開カレンダーの記事のみ
-  return articles
-    .filter((article: (typeof articles)[0]) => article.calendar.isPublished)
-    .map((article: (typeof articles)[0]) => ({
-      slug: article.calendar.slug,
-      date: article.date.toString(),
-    }));
+  return articles.map((article: (typeof articles)[0]) => ({
+    slug: article.calendar.slug,
+    date: article.date.toString(),
+  }));
 }
 
 /**

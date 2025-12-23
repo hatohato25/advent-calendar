@@ -75,6 +75,13 @@ model Article {
   @@index([status])
   @@index([date])
   @@index([calendarId])
+  // 複合インデックス: 頻繁に使用されるクエリパターンを最適化
+  // WHY: calendarId + status の組み合わせで絞り込むクエリが多いため
+  @@index([calendarId, status])
+  // WHY: calendarId + date の組み合わせで記事を検索するクエリ用
+  @@index([calendarId, date])
+  // WHY: 公開済み記事を日付順で取得するクエリ用（前後記事取得など）
+  @@index([calendarId, status, date])
   @@map("articles")
 }
 

@@ -2,6 +2,10 @@ import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 
+// ISR設定: 60秒ごとに再検証
+// WHY: 最新カレンダーの取得クエリをキャッシュし、2〜3秒のレイテンシを削減
+export const revalidate = 60;
+
 /**
  * トップページ
  * 最新のアクティブなカレンダーにリダイレクト
