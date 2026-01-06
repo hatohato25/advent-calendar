@@ -205,6 +205,7 @@ export default async function PostPage({ params }: PostPageProps) {
  * SSG用に全記事のパラメータを生成
  * WHY: 公開記事のみをDB側でフィルタリングすることで、不要なデータ転送を削減
  * WHY: 必要なフィールドのみ取得することで、メモリ使用量を削減
+ * WHY: localeパラメータも含めることで、各ロケールごとに静的ページを生成
  */
 export async function generateStaticParams() {
   const articles = await prisma.article.findMany({
@@ -224,10 +225,17 @@ export async function generateStaticParams() {
     },
   });
 
-  return articles.map((article: (typeof articles)[0]) => ({
-    slug: article.calendar.slug,
-    date: article.date.toString(),
-  }));
+  // サポートするロケール
+  const locales = ["ja", "en"];
+
+  // 各記事を各ロケールで生成
+  return articles.flatMap((article: (typeof articles)[0]) =>
+    locales.map((locale) => ({
+      locale,
+      slug: article.calendar.slug,
+      date: article.date.toString(),
+    })),
+  );
 }
 
 /**
