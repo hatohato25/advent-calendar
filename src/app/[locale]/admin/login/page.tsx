@@ -9,11 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoadingFallback } from "@/components/ui/loading-fallback";
-import { useRouter } from "@/i18n/routing";
 
 function LoginForm() {
   const t = useTranslations("auth.login");
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,23 +36,22 @@ function LoginForm() {
         return;
       }
 
-      // ログイン成功時は管理ダッシュボードにリダイレクト
+      // ログイン成功 - 管理ダッシュボードにリダイレクト
+      // next-intlのルーターがVercel本番環境で正常に動作しないため、window.location.hrefを使用
       const callbackUrl = searchParams.get("callbackUrl") || "/admin";
-      // callbackUrlからロケールプレフィックス（/ja, /en など）を削除
-      // next-intlのルーターが自動的にロケールプレフィックスを追加するため、削除が必要
-      const pathWithoutLocale = callbackUrl.replace(/^\/[a-z]{2}\//, "/");
 
-      // リダイレクト実行
-      // router.push()は非同期だが、リダイレクト中は読み込み状態を維持するためsetIsLoading(false)を呼ばない
-      router.push(pathWithoutLocale);
+      // URLエンコードされている場合はデコード
+      const decodedUrl = decodeURIComponent(callbackUrl);
 
-      // ルーターの遷移完了を待ってからリフレッシュ
-      // Vercel本番環境でのネットワーク遅延を考慮して少し待つ
-      setTimeout(() => {
-        router.refresh();
-      }, 100);
+      // ロケールプレフィックスが含まれているか確認
+      const hasLocalePrefix = /^\/[a-z]{2}\//.test(decodedUrl);
+
+      // ロケールプレフィックスがない場合は、現在のロケールを追加
+      const redirectPath = hasLocalePrefix ? decodedUrl : `/ja${decodedUrl}`;
+
+      // window.location.hrefで強制リダイレクト（確実に遷移する）
+      window.location.href = redirectPath;
     } catch (error) {
-      console.error("Login error:", error);
       setError(t("errorGeneric"));
       setIsLoading(false);
     }
