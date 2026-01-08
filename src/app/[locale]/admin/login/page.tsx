@@ -41,10 +41,20 @@ function LoginForm() {
       // ログイン成功時は管理ダッシュボードにリダイレクト
       const callbackUrl = searchParams.get("callbackUrl") || "/admin";
       // callbackUrlからロケールプレフィックス（/ja, /en など）を削除
+      // next-intlのルーターが自動的にロケールプレフィックスを追加するため、削除が必要
       const pathWithoutLocale = callbackUrl.replace(/^\/[a-z]{2}\//, "/");
+
+      // リダイレクト実行
+      // router.push()は非同期だが、リダイレクト中は読み込み状態を維持するためsetIsLoading(false)を呼ばない
       router.push(pathWithoutLocale);
-      router.refresh();
-    } catch {
+
+      // ルーターの遷移完了を待ってからリフレッシュ
+      // Vercel本番環境でのネットワーク遅延を考慮して少し待つ
+      setTimeout(() => {
+        router.refresh();
+      }, 100);
+    } catch (error) {
+      console.error("Login error:", error);
       setError(t("errorGeneric"));
       setIsLoading(false);
     }
