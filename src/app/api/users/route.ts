@@ -140,7 +140,14 @@ export async function POST(request: Request) {
     });
 
     // 初回ログイン用URL生成
-    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+    // NEXTAUTH_URLではなくNEXT_PUBLIC_APP_URLを優先し、
+    // 環境変数が未設定の場合はVercelが自動提供するVERCEL_URLを使用する。
+    // これにより本番・Preview・開発環境を問わず正しいURLが生成される。
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+      process.env.NEXTAUTH_URL ||
+      "http://localhost:3000";
     const firstLoginUrl = `${baseUrl}/auth/first-login?token=${token}`;
 
     // passwordHashとfirstLoginTokenを除外して返却
