@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
  * テストユーザーを自動生成し、テストユーザーIDを返す
  *
  * 招待フローを経ずにサービスをすぐに体験できるよう、
- * 6時間後に自動削除されるテストユーザーを作成する
+ * 24時間後に自動削除されるテストユーザーを作成する
  */
 export async function POST() {
   try {
@@ -16,9 +16,10 @@ export async function POST() {
     // ユニーク性を確保するためUUIDの先頭8文字を使用
     const shortId = uuid.slice(0, 8);
 
-    // テストユーザー有効期限: 作成時刻から6時間後
+    // テストユーザー有効期限: 作成時刻から24時間後
+    // WHY: Vercel Hobby プランのCron制限により日次実行のため、24時間に設定
     const testUserExpiresAt = new Date();
-    testUserExpiresAt.setHours(testUserExpiresAt.getHours() + 6);
+    testUserExpiresAt.setHours(testUserExpiresAt.getHours() + 24);
 
     const user = await prisma.user.create({
       data: {

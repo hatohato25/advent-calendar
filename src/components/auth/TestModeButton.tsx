@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
  *
  * ユーザー登録なしにサービスを即時体験させるための機能。
  * 確認ダイアログで注意事項を提示した後、テストユーザーを自動生成して管理画面にリダイレクトする。
- * テストユーザーは6時間後に自動削除される。
+ * テストユーザーは24時間後に自動削除される。
  */
 export function TestModeButton() {
   const t = useTranslations("auth.testMode");

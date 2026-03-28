@@ -6,7 +6,8 @@ import { prisma } from "@/lib/prisma";
  * GET /api/cron/cleanup-test-users
  * 期限切れのテストユーザーとその関連データを削除する
  *
- * Vercel Cron Jobsによって1時間ごとに自動実行される（vercel.json参照）。
+ * Vercel Cron Jobsによって1日1回（UTC 00:00）自動実行される（vercel.json参照）。
+ * WHY: Vercel Hobby プランはCronの実行頻度が1日1回に制限されているため。
  * CRON_SECRETによる認証でスパムリクエストを防止する。
  */
 export async function GET(request: Request) {

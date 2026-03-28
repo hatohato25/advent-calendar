@@ -454,10 +454,10 @@
     "testMode": {
       "buttonLabel": "Try Test Mode",
       "dialogTitle": "Start Test Mode?",
-      "dialogDescription": "Data created in test mode will be automatically deleted 6 hours after you start. Deleted data cannot be restored. In test mode, you have admin privileges and can try all features.",
+      "dialogDescription": "Data created in test mode will be automatically deleted 24 hours after you start. Deleted data cannot be restored. In test mode, you have admin privileges and can try all features.",
       "confirmButton": "Start",
       "cancelButton": "Cancel",
-      "bannerMessage": "You are in test mode. Data you create will be automatically deleted after 6 hours.",
+      "bannerMessage": "You are in test mode. Data you create will be automatically deleted after 24 hours.",
       "errorFailed": "Failed to start test mode. Please try again."
     },
     "firstLogin": {
