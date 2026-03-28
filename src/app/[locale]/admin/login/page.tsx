@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
+import { TestModeButton } from "@/components/auth/TestModeButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -51,7 +52,7 @@ function LoginForm() {
 
       // window.location.hrefで強制リダイレクト（確実に遷移する）
       window.location.href = redirectPath;
-    } catch (error) {
+    } catch (_error) {
       setError(t("errorGeneric"));
       setIsLoading(false);
     }
@@ -100,6 +101,20 @@ function LoginForm() {
             {isLoading ? t("submitting") : t("submit")}
           </Button>
         </form>
+
+        {/* テストモードとの視覚的な区切り */}
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-gray-300 dark:border-gray-600" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">
+              または
+            </span>
+          </div>
+        </div>
+
+        <TestModeButton />
       </CardContent>
     </Card>
   );

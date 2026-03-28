@@ -12,8 +12,29 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "メールアドレス", type: "email" },
         password: { label: "パスワード", type: "password" },
+        testUserId: { label: "テストユーザーID", type: "text" },
       },
       async authorize(credentials) {
+        // テストユーザーIDが渡された場合はテストモードログイン
+        if (credentials?.testUserId) {
+          const testUser = await prisma.user.findUnique({
+            where: { id: credentials.testUserId },
+          });
+
+          if (!testUser || !testUser.isTestUser) {
+            throw new Error("テストユーザーが見つかりません");
+          }
+
+          return {
+            id: testUser.id,
+            name: testUser.username,
+            email: testUser.email,
+            role: testUser.role as UserRole,
+            allowedDates: testUser.allowedDates,
+            isTestUser: true,
+          };
+        }
+
         if (!credentials?.email || !credentials?.password) {
           throw new Error("メールアドレスとパスワードを入力してください");
         }
@@ -41,6 +62,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           role: user.role as UserRole,
           allowedDates: user.allowedDates,
+          isTestUser: false,
         };
       },
     }),
@@ -63,6 +85,7 @@ export const authOptions: NextAuthOptions = {
           allowedDates: user.allowedDates || null,
         });
         token.allowedDates = allowedDates;
+        token.isTestUser = user.isTestUser ?? false;
       }
       return token;
     },
@@ -71,6 +94,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
         session.user.allowedDates = token.allowedDates as number[];
+        session.user.isTestUser = token.isTestUser;
       }
       return session;
     },

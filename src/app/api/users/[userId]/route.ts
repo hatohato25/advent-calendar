@@ -160,6 +160,15 @@ export async function DELETE(
       return NextResponse.json({ error: "自分自身を削除することはできません" }, { status: 400 });
     }
 
+    // テストユーザーは他のユーザーを削除できない
+    // WHY: テストモードはデモ目的のため、実際のデータ削除を制限することで安全性を確保する
+    if (session.user.isTestUser) {
+      return NextResponse.json(
+        { error: "テストモードではユーザーを削除できません" },
+        { status: 403 },
+      );
+    }
+
     // ユーザー存在チェック
     const user = await prisma.user.findUnique({
       where: { id },

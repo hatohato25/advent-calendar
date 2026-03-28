@@ -451,6 +451,15 @@
       "errorInvalid": "メールアドレスまたはパスワードが正しくありません",
       "errorGeneric": "ログイン中にエラーが発生しました"
     },
+    "testMode": {
+      "buttonLabel": "テストモードで試す",
+      "dialogTitle": "テストモードを開始しますか？",
+      "dialogDescription": "テストモードで作成したデータは、開始から6時間後に自動的に削除されます。削除されたデータは復元できません。テストモードでは管理者権限を持ち、すべての機能を試すことができます。",
+      "confirmButton": "確認して始める",
+      "cancelButton": "キャンセル",
+      "bannerMessage": "テストモードで操作中です。作成したデータは6時間後に自動削除されます。",
+      "errorFailed": "テストモードの開始に失敗しました。もう一度お試しください。"
+    },
     "firstLogin": {
       "title": "初回ログイン",
       "setPasswordTitle": "パスワード設定",

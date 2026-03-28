@@ -6,6 +6,7 @@ declare module "next-auth" {
     id: string;
     role: UserRole;
     allowedDates?: string | null; // JSON配列文字列
+    isTestUser?: boolean;
   }
 
   interface Session {
@@ -15,6 +16,7 @@ declare module "next-auth" {
       email: string;
       role: UserRole;
       allowedDates: number[];
+      isTestUser: boolean;
     };
   }
 }
@@ -24,5 +26,6 @@ declare module "next-auth/jwt" {
     id: string;
     role: UserRole;
     allowedDates: number[];
+    isTestUser: boolean;
   }
 }

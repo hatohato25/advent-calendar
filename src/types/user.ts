@@ -39,6 +39,7 @@ export type SessionUser = {
   email: string;
   role: UserRole;
   allowedDates: number[];
+  isTestUser: boolean;
 };
 
 // ユーザー一覧表示用の型
